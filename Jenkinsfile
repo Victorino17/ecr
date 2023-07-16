@@ -4,28 +4,28 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'docker build -t marecl:latest .'
+                sh 'docker build -t melong:latest .'
             }
         }
 
         stage('Login to ECR') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'Demo-ecs', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                    sh 'eval $(aws ecr get-login --no-include-email --region us-east-2)'
+                    sh 'eval $(aws ecr get-login --no-include-email --region eu-west-2)'
                 }
             }
         }
 
         stage('Push to ECR') {
             steps {
-                sh 'docker tag marecl:latest 176039391845.dkr.ecr.us-east-2.amazonaws.com/marecl:latest'
-                sh 'docker push 176039391845.dkr.ecr.us-east-2.amazonaws.com/marecl:latest'
+                sh 'docker tag melong:latest 397783195241.dkr.ecr.eu-west-2.amazonaws.com/leparrain'
+                sh 'docker push 397783195241.dkr.ecr.eu-west-2.amazonaws.com/leparrain'
             }
         }
 
         stage('Logout from ECR') {
             steps {
-                sh 'docker logout 176039391845.dkr.ecr.us-east-2.amazonaws.com'
+                sh 'docker logout 397783195241.dkr.ecr.eu-west-2.amazonaws.com/leparrain'
             }
         }
     }
